@@ -20,8 +20,11 @@ ADD iptables.rules .
 ADD entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
 
-# generate china ipset
+# install dependencies and generate china ipset
+ENV SS_DEP bash
 RUN set -ex \
+    && apk add --update --no-cache $SS_DEP \
+    && rm -rf /var/cache/apk/* \
     && echo 'create china hash:net' >> ipset.conf \
     && curl 'http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest' \
         | grep ipv4 \
