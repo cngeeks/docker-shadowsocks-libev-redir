@@ -21,7 +21,7 @@ ADD entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
 
 # install dependencies and generate china ipset
-ENV SS_DEP bash
+ENV SS_DEP bash ipset iptables
 RUN set -ex \
     && apk add --update --no-cache $SS_DEP \
     && rm -rf /var/cache/apk/* \
