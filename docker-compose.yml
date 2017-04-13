@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+  ss-redir-main:
+    container_name: ss-redir
+    image: lisnaz/ss-redir:latest
+    cap_add:
+      - NET_ADMIN
+    networks:
+      default:
+        ipv4_address: 172.18.0.2
+    environment:
+      - SS_SERVER_ADDR=<your shadowsocks-libev server address>
+      - SS_SERVER_PORT=<your shadowsocks-libev server port>
+      - SS_PASSWORD=password
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/24
+          gateway: 172.18.0.1
