@@ -22,11 +22,13 @@ ENTRYPOINT ["/entrypoint.sh"]
 
 # install dependencies and generate china ipset
 ENV SS_DEP bash ipset iptables
+ENV SS_TDEP curl
 RUN set -ex \
-    && apk add --update --no-cache $SS_DEP \
+    && apk add --update --no-cache $SS_DEP $SS_TDEP \
     && rm -rf /var/cache/apk/* \
     && echo 'create china hash:net' >> ipset.conf \
     && curl 'http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest' \
         | grep ipv4 \
         | grep CN \
-        | awk -F\| '{printf(add china "%s/%d\n", $4, 32-log($5)/log(2))}' >> ipset.conf
+        | awk -F\| '{printf(add china "%s/%d\n", $4, 32-log($5)/log(2))}' >> ipset.conf \
+    && apk del --purge $SS_TDEP
