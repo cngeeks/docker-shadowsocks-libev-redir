@@ -29,6 +29,12 @@ iptables-restore "iptables.rules"
 echo "done iptables"
 # ====== generate and install iptable rules ======
 
+# ====== generate and install iptable rules ======
+echo "preparing ip rules ..."
+ip rule add fwmark 1 lookup 100
+ip route add local 0.0.0.0/0 dev lo table 100
+echo "done ip rules"
+# ====== generate and install iptable rules ======
 
 echo "Starting Shadowsocks-libev in redir mode ..."
 exec ss-redir \
