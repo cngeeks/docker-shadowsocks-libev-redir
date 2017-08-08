@@ -12,7 +12,7 @@
 -A SHADOWSOCKS -d 193.0.0.0/8 -j RETURN
 -A SHADOWSOCKS -d 224.0.0.0/4 -j RETURN
 -A SHADOWSOCKS -d 240.0.0.0/4 -j RETURN
--A SHADOWSOCKS -p udp -j TPROXY --on-port {SS_REDIR_PORT} --tproxy-mark 0x01/0x01
+-A SHADOWSOCKS -p udp -m set ! --match-set china dst -j TPROXY --on-port {SS_REDIR_PORT} --tproxy-mark 0x01/0x01
 
 -A SHADOWSOCKS_MARK -d 0.0.0.0/8 -j RETURN
 -A SHADOWSOCKS_MARK -d 10.0.0.0/8 -j RETURN
@@ -23,7 +23,7 @@
 -A SHADOWSOCKS_MARK -d 193.0.0.0/8 -j RETURN
 -A SHADOWSOCKS_MARK -d 224.0.0.0/4 -j RETURN
 -A SHADOWSOCKS_MARK -d 240.0.0.0/4 -j RETURN
--A SHADOWSOCKS_MARK -p udp -j MARK --set-mark 1
+-A SHADOWSOCKS_MARK -p udp -m set ! --match-set china dst -j MARK --set-mark 1
 
 # apply the rules
 -A PREROUTING ! -i lo -j SHADOWSOCKS
